@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title_block %} {{ view_user.username }}'s Profile {% endblock %}
+
+{% block body_block %}
+    <h2>Profile of @{{ view_user.username }}</h2>
+    
+    {% if view_user_profile.profile_pic %}
+        <img class="rounded-circle" width="150px" src="/media/{{ view_user_profile.profile_pic }}">
+    {% else %}
+        <img class="rounded-circle" width="150px" src="/media/profile_pics/staticallyUsagePic/admin-avatar.png">
+    {% endif %}
+    
+    <hr>
+    <p><b>Username:</b> {{ view_user.username }}</p>
+    <p><b>Email:</b> {{ view_user.email }}</p>
+    <p><b>Full Name:</b> {{ view_user.first_name }} {{ view_user.last_name }}</p>
+{% endblock %}

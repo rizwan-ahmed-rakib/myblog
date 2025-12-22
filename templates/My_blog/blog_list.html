@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title_block %} blog-list{% endblock %}
+
+{% block body_block %}
+    <h1> i am blog home page</h1><h2>current time:{% current_time "%Y-%m-%d %H:%M %p" %}</h2>
+    {% for blog in blogs %}
+
+        <h3>{{ blog.blog_title }}</h3>
+            <h5>{{ blog.publish_date }}</h5>
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="/media/{{ blog.blog_image }}" alt="{{ blog.blog_title }}" title="{{ blog.blog_title }}"
+                         width="100%">
+                </div>
+                <div class="col-sm-8">
+
+                    <p>{{ blog.blog_content|range_filter|linebreaks }}<a href="{% url 'my_blog:blog_details' slug=blog.slug %}">read more</a></p>
+                    <h6>Posted By <a href="{% url 'my_blog:author_blogs' username=blog.author.username %}">@{{ blog.author }}</a></h6>
+                    <h6 style="color: #006b1b">{{ blog.liked_blog.count }}likes| {{ blog.blog_comment.count }}comments</h6>
+                    {% if blog.author.user_profile.profile_pic %}
+                        <img src="/media/{{ blog.author.user_profile.profile_pic }}" alt="@{{ blog.author }}" width="40px" height="40px" class="rounded-circle">
+                    {% else %}
+                        <img src="/media/profile_pics/staticallyUsagePic/admin-avatar.png" alt="default avatar" width="40px" height="40px" class="rounded-circle">
+                    {% endif %}
+                    <br>
+                    <small>{{ blog.publish_date }}</small>
+                </div>
+
+            </div>
+        
+
+
+        <hr>
+    {% endfor %}
+
+{% endblock %}

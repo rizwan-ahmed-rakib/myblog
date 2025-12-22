@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title_block %} profile{% endblock %}
+{% block body_block %}
+    <h2 style="color: #6f94c6"> i am Your PROFILE page</h2>
+    {% if user.user_profile %}
+
+        <img class="rounded-circle" width="150px" src="/media/{{ user.user_profile.profile_pic }}">
+        <a class="btn btn-warning btn-sm" href="{% url 'Login_App:change_profile_pic' %}">change profile pic</a>
+
+
+
+    {% else %}
+        <img src="/media/profile_pics/staticallyUsagePic/admin-avatar.png">
+        <br>
+        <br>
+        <br>
+        <a class="btn btn-primary btn-sm" href="{% url 'Login_App:add_profile_pic' %}">add a profile pic</a>
+    {% endif %}
+    <p> Username:{{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Name: {{ user.first_name }}{{ user.last_name }}</p>
+    <br>
+    <a href="{% url 'Login_App:change_profile' %}" class="btn btn-warning btn-sm">change profile</a>
+{% endblock %}

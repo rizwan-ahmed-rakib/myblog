@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title_block %} add-profile-picture{% endblock %}
+{% load crispy_forms_tags %}
+{% block body_block %}
+    <h2>Add your profile picture</h2>
+    <form method="POSt" enctype="multipart/form-data">
+        {% if user.user_profile %}
+            <h1 >i have fetched your data</h1>
+            <img class="rounded-circle" width="100px" src='/media/{{ user.user_profile.profile_pic }}'>
+        {% else %}
+            <img src="/media/profile_pics/staticallyUsagePic/admin-avatar.png">
+            <br>
+            <br>
+            <br>
+        {% endif %}
+        {{ form|crispy }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success fa-battle-net"> add as profile</button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title_block %} Blogs by {{ author.username }} {% endblock %}
+
+{% block body_block %}
+    <div class="row">
+        <div class="col-sm-4">
+            {% if author_profile.profile_pic %}
+                <img src="/media/{{ author_profile.profile_pic }}" alt="@{{ author.username }}" width="150px" class="rounded-circle">
+            {% else %}
+                <img src="/media/profile_pics/staticallyUsagePic/admin-avatar.png" alt="default avatar" width="150px" class="rounded-circle">
+            {% endif %}
+        </div>
+        <div class="col-sm-8">
+            <h3>@{{ author.username }}</h3>
+            <h5>{{ author.first_name }} {{ author.last_name }}</h5>
+            <a href="{% url 'Login_App:user_profile' username=author.username %}" class="btn btn-primary">View Profile</a>
+        </div>
+    </div>
+
+    <hr>
+    <h2 style="color: #006b1b">Blogs by @{{ author.username }}</h2>
+
+    {% for blog in blogs %}
+        <h3>{{ blog.blog_title }}</h3>
+        <h5>Published on: {{ blog.publish_date }}</h5>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="/media/{{ blog.blog_image }}" alt="{{ blog.blog_title }}" title="{{ blog.blog_title }}" width="100%">
+            </div>
+            <div class="col-sm-8">
+                <p>{{ blog.blog_content|range_filter|linebreaks }}<a href="{% url 'my_blog:blog_details' slug=blog.slug %}">read more</a></p>
+                <h6 style="color: #006b1b">{{ blog.liked_blog.count }} likes | {{ blog.blog_comment.count }} comments</h6>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title_block %} blogs {% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add this to your base.html or wherever you include your CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-bRga8A9lBD7xc2Xs/3c3bJssE//grYXYaA1tWOJxoc/5AbNXclXU4M47nJ6bU6wx/6fE5H0btEO5OgPKWSDPcQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+</head>
+<body>
+
+<div class="container mt-3">
+camera
+    <i class="fas fa-camera"></i> <!-- Camera icon -->
+
+
+    <h2>Pills with Dropdown for my blog project</h2>
+
+    <ul class="nav nav-pills bg-dark">
+        <li class="nav-item">
+            <a class="nav-link " href="{% url 'index' %}"><img src="/media/blog_images/static_images/Capture.PNG"
+                                                               width="50px"></a>
+        </li>
+        {% if user.is_authenticated %}
+            <li>
+                <a style="color: #4ac1f7" class="nav-link " href="{% url 'Login_App:profile' %}">Profile</a>
+
+            </li>
+            <li class="nav-item">
+                <a style="color: #4ac1f7" class="nav-link " href="{% url 'my_blog:create_blog' %}">Write Blog</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #4ac1f7" class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Login_App:logout' %}">logout</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">@{{ user.username }}</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'Login_App:profile' %}">profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'my_blog:my_blogs' %}">my blogs</a></li>
+                    <hr>
+                    <li><a class="dropdown-item" href="{% url 'Login_App:logout' %}">logout</a></li>
+                </ul>
+            <li class="nav-item">
+
+                {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Login_App:signup ' %}">signup</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Login_App:login' %}">login</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</div>
+
+<div class="container mt-3">
+    {% block body_block %}
+
+    {% endblock %}
+</div>
+
+
+</body>
+</html>

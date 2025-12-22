@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title_block %}{{ blog.blog_title }}{% endblock %}
+{% load crispy_forms_tags %}
+{% block body_block %}
+<h2> ........</h2>
+<div class="row">
+    <div class="col-sm-6">
+        <h2> {{ blog.blog_title }}</h2>
+        <h4>Posted By<a href="#"> @ {{ blog.author }}</a></h4>
+        <i><h6> Published On {{ blog.publish_date }}</h6></i>
+        <i><h6> Update On {{ blog.update_date }}</h6></i>
+        <h6 style="color: #006b1b"> {{ blog.liked_blog.count}}likes|{{ blog.blog_comment.count }}comment</h6>
+
+    </div>
+
+    <div class="col-sm-6">
+        <img src="/media/{{ blog.blog_image }}" width="100%" alt="{{ blog.blog_title }}"
+             title="{{ blog.blog_title }}">
+    </div>
+
+
+</div>
+<p>
+    {{ blog.blog_content|linebreaks }}
+</p>
+<hr>
+<a href="{% url 'my_blog:liked-post' pk=blog.pk %}"><i class="fa-solid fa-thumbs-up" aria-hidden="true"></i>like</a>
+<a href="{% url 'my_blog:unliked-post' pk=blog.pk %}"><i class="fa-solid fa-thumbs-up"
+                                                         aria-hidden="true"></i>unlike</a>
+
+{% if not liked %}
+<a href="" style="float: right"><i class="fa-solid fa-thumbs-up" aria-hidden="true"></i>like</a>
+{% else %}
+<a href="{% url 'my_blog:unliked-post' pk=blog.pk %}" style="float: right"><i class="fa-solid fa-thumbs-up"
+                                                                              aria-hidden="true"></i>unlike</a>
+{% endif %}
+<div class="row">
+    <h2>comments</h2>
+    <div class="col-sm-6">
+
+        <form method="POST">
+            {{ comment_form|crispy }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-sm">comment</button>
+            <br>
+            <br>
+            <br>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <h4 style="color:forestgreen">comments</h4>
+        {% for comment in blog.blog_comment.all %}
+                <p><a href="#">@{{ comment.user }}</a>
+                    {% if comment.user.user_profile.profile_pic %}
+                        <img src="/media/{{ comment.user.user_profile.profile_pic }}" width="30px" class="rounded-circle">
+                    {% else %}
+                        <img src="/media/profile_pics/staticallyUsagePic/admin-avatar.png" width="30px" class="rounded-circle">
+                    {% endif %}
+                    {{ comment.comment_date }}<br>
+            {{ comment.comment }}
+        <hr>
+
+
+        </p>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}
