@@ -16,18 +16,23 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls import include
+from django.views.static import serve
 
 from . import views
 from login_app.views import password_change
 
-urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('blog/', include('my_blog.urls')),
-                  path('account/', include('login_app.urls')),
-                  path('', views.index, name='index'),
-                  path('3/password/', password_change, name='password_change')
+urlpatterns = ([
+    path('admin/', admin.site.urls),
+    path('blog/', include('my_blog.urls')),
+    path('account/', include('login_app.urls')),
+    path('', views.index, name='index'),
+    path('3/password/', password_change, name='password_change'),
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+    # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)
